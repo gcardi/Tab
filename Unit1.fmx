@@ -3,81 +3,14 @@ object Form1: TForm1
   Top = 0
   BorderStyle = Single
   Caption = 'Form1'
-  ClientHeight = 754
+  ClientHeight = 746
   ClientWidth = 642
   StyleBook = StyleBook1
   FormFactor.Width = 320
   FormFactor.Height = 480
   FormFactor.Devices = [Desktop]
+  OnClose = FormClose
   DesignerMasterStyle = 0
-  object GridLayout1: TGridLayout
-    Align = MostTop
-    ItemHeight = 64.000000000000000000
-    ItemWidth = 64.000000000000000000
-    Orientation = Horizontal
-    Size.Width = 642.000000000000000000
-    Size.Height = 633.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 0
-  end
-  object Layout1: TLayout
-    Align = Top
-    Position.Y = 633.000000000000000000
-    Size.Width = 642.000000000000000000
-    Size.Height = 120.000000000000000000
-    Size.PlatformDefault = False
-    TabOrder = 1
-    object Edit1: TEdit
-      Touch.InteractiveGestures = [LongTap, DoubleTap]
-      TabOrder = 0
-      TextSettings.Font.Size = 32.000000000000000000
-      Position.X = 24.000000000000000000
-      Position.Y = 24.000000000000000000
-      Size.Width = 185.000000000000000000
-      Size.Height = 73.000000000000000000
-      Size.PlatformDefault = False
-      StyledSettings = [Family, Style, FontColor]
-    end
-    object Button1: TButton
-      Action = actTest
-      Default = True
-      Enabled = True
-      StyledSettings = [Family, Style, FontColor]
-      ImageIndex = -1
-      Position.X = 232.000000000000000000
-      Position.Y = 24.000000000000000000
-      Size.Width = 137.000000000000000000
-      Size.Height = 73.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 2
-      TextSettings.Font.Size = 32.000000000000000000
-    end
-    object Label1: TLabel
-      StyledSettings = [Family, Style, FontColor]
-      Position.X = 392.000000000000000000
-      Position.Y = 8.000000000000000000
-      Size.Width = 233.000000000000000000
-      Size.Height = 33.000000000000000000
-      Size.PlatformDefault = False
-      TextSettings.Font.Size = 24.000000000000000000
-      Text = 'Punteggio: 0'
-      TabOrder = 3
-    end
-    object Button2: TButton
-      Action = actRicomincia
-      Cancel = True
-      Enabled = True
-      StyledSettings = [Family, Style, FontColor]
-      ImageIndex = -1
-      Position.X = 392.000000000000000000
-      Position.Y = 48.000000000000000000
-      Size.Width = 233.000000000000000000
-      Size.Height = 49.000000000000000000
-      Size.PlatformDefault = False
-      TabOrder = 1
-      TextSettings.Font.Size = 32.000000000000000000
-    end
-  end
   object StyleBook1: TStyleBook
     UseStyleManager = True
     Styles = <
@@ -3234,6 +3167,163 @@ object Form1: TForm1
     Left = 288
     Top = 456
   end
+  object Rectangle1: TRectangle
+    Align = Client
+    Fill.Kind = Gradient
+    Fill.Gradient.Points = <
+      item
+        Color = claBlack
+        Offset = 0.000000000000000000
+      end
+      item
+        Color = claBlack
+        Offset = 1.000000000000000000
+      end>
+    Fill.Gradient.StartPosition.X = 0.500000000000000000
+    Fill.Gradient.StartPosition.Y = 1.000000000000000000
+    Fill.Gradient.StopPosition.X = 0.499999970197677600
+    Fill.Gradient.StopPosition.Y = 0.000000000000000000
+    Size.Width = 642.000000000000000000
+    Size.Height = 746.000000000000000000
+    Size.PlatformDefault = False
+    object GridLayout1: TGridLayout
+      Align = MostTop
+      ItemHeight = 64.000000000000000000
+      ItemWidth = 64.000000000000000000
+      Orientation = Horizontal
+      Size.Width = 642.000000000000000000
+      Size.Height = 633.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 0
+    end
+    object Layout1: TLayout
+      Align = Top
+      Position.Y = 633.000000000000000000
+      Size.Width = 642.000000000000000000
+      Size.Height = 112.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 1
+      object Button1: TButton
+        Action = actTest
+        Default = True
+        Enabled = True
+        StyledSettings = [Family, Style, FontColor]
+        ImageIndex = -1
+        Position.X = 184.000000000000000000
+        Position.Y = 20.000000000000000000
+        Size.Width = 113.000000000000000000
+        Size.Height = 73.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 3
+        TextSettings.Font.Size = 32.000000000000000000
+      end
+      object Button2: TButton
+        Action = actRicomincia
+        Cancel = True
+        Enabled = True
+        StyledSettings = [Family, Style, FontColor]
+        ImageIndex = -1
+        Position.X = 312.000000000000000000
+        Position.Y = 44.000000000000000000
+        Size.Width = 193.000000000000000000
+        Size.Height = 49.000000000000000000
+        Size.PlatformDefault = False
+        TabOrder = 1
+        TextSettings.Font.Size = 32.000000000000000000
+      end
+      object Edit1: TEdit
+        Touch.InteractiveGestures = [LongTap, DoubleTap]
+        TabOrder = 0
+        TextSettings.Font.Size = 32.000000000000000000
+        Position.X = 24.000000000000000000
+        Position.Y = 20.000000000000000000
+        Size.Width = 145.000000000000000000
+        Size.Height = 73.000000000000000000
+        Size.PlatformDefault = False
+        StyledSettings = [Family, Style, FontColor]
+      end
+      object Label1: TLabel
+        StyledSettings = [Family, Style]
+        Position.X = 312.000000000000000000
+        Position.Y = 8.000000000000000000
+        Size.Width = 193.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 24.000000000000000000
+        TextSettings.FontColor = claAqua
+        Text = 'Punteggio: 0'
+        TabOrder = 2
+      end
+      object Switch1: TSwitch
+        IsChecked = False
+        Position.X = 536.000000000000000000
+        Position.Y = 56.000000000000000000
+        TabOrder = 4
+        OnSwitch = Switch1Switch
+      end
+      object Label2: TLabel
+        StyledSettings = [Family, Style, FontColor]
+        Position.X = 536.000000000000000000
+        Position.Y = 24.000000000000000000
+        Size.Width = 77.000000000000000000
+        Size.Height = 32.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 24.000000000000000000
+        TextSettings.HorzAlign = Center
+        Text = 'Auto'
+        TabOrder = 5
+      end
+    end
+    object GradientAnimation1: TGradientAnimation
+      AutoReverse = True
+      Enabled = True
+      Duration = 6.000000000000000000
+      Loop = True
+      PropertyName = 'Fill.Gradient'
+      StartValue.Points = <
+        item
+          Color = xFFA40000
+          Offset = 0.003105590119957924
+        end
+        item
+          Color = xFF202087
+          Offset = 0.316770195960998500
+        end
+        item
+          Color = claBlack
+          Offset = 0.521739125251770000
+        end
+        item
+          Color = xFF0000A4
+          Offset = 0.732919275760650600
+        end
+        item
+          Color = xFF056A0C
+          Offset = 1.000000000000000000
+        end>
+      StartValue.StartPosition.X = 0.500000000000000000
+      StartValue.StartPosition.Y = 1.000000000000000000
+      StartValue.StopPosition.X = 0.499999970197677600
+      StartValue.StopPosition.Y = 0.000000000000000000
+      StopValue.Points = <
+        item
+          Color = claBlack
+          Offset = 0.000000000000000000
+        end
+        item
+          Color = xFF7C1976
+          Offset = 0.462732911109924300
+        end
+        item
+          Color = xFFBD0808
+          Offset = 1.000000000000000000
+        end>
+      StopValue.StartPosition.X = 0.500000000000000000
+      StopValue.StartPosition.Y = 1.000000000000000000
+      StopValue.StopPosition.X = 0.499999970197677600
+      StopValue.StopPosition.Y = 0.000000000000000000
+    end
+  end
   object ActionList1: TActionList
     Left = 400
     Top = 480
@@ -3246,5 +3336,11 @@ object Form1: TForm1
       Text = 'Ricomincia'
       OnExecute = actRicominciaExecute
     end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 360
+    Top = 328
   end
 end

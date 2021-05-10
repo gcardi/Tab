@@ -12,7 +12,7 @@ object Frame2: TFrame2
     Size.Width = 104.000000000000000000
     Size.Height = 102.000000000000000000
     Size.PlatformDefault = False
-    OnDblClick = Label1DblClick
+    OnClick = Click
     object ColorAnimation1: TColorAnimation
       AutoReverse = True
       Duration = 1.000000000000000000
@@ -32,6 +32,6 @@ object Frame2: TFrame2
     TextSettings.HorzAlign = Center
     Text = '-'
     TabOrder = 0
-    OnDblClick = Label1DblClick
+    OnClick = Click
   end
 end

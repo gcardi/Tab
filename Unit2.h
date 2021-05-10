@@ -18,13 +18,14 @@ __published:	// IDE-managed Components
     TLabel *Label1;
     TRectangle *Rectangle1;
     TColorAnimation *ColorAnimation1;
-    void __fastcall Label1DblClick(TObject *Sender);
+	void __fastcall Click(TObject *Sender);
 private:	// User declarations
     bool enabled_ { true };
 public:		// User declarations
     __fastcall TFrame2(TComponent* Owner);
     void Fail();
     void Ok();
+    bool IsEnabled() const { return enabled_; }
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFrame2 *Frame2;
