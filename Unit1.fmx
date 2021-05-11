@@ -3164,7 +3164,7 @@ object Form1: TForm1
           666F726D44656661756C74080B5374796C654C6F6F6B757006157363726F6C6C
           626172626F74746F6D627574746F6E085461624F72646572020000000000}
       end>
-    Left = 288
+    Left = 304
     Top = 456
   end
   object Rectangle1: TRectangle
@@ -3324,6 +3324,12 @@ object Form1: TForm1
       StopValue.StopPosition.Y = 0.000000000000000000
     end
   end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 360
+    Top = 328
+  end
   object ActionList1: TActionList
     Left = 400
     Top = 480
@@ -3336,11 +3342,5 @@ object Form1: TForm1
       Text = 'Ricomincia'
       OnExecute = actRicominciaExecute
     end
-  end
-  object Timer1: TTimer
-    Enabled = False
-    OnTimer = Timer1Timer
-    Left = 360
-    Top = 328
   end
 end
