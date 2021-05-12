@@ -7,6 +7,8 @@
 
 #include <System.Win.ComObj.hpp>
 
+#include <IdSync.hpp>
+
 #include <iterator>
 #include <chrono>
 #include <random>
@@ -62,7 +64,7 @@ void TForm1::Init()
 }
 //---------------------------------------------------------------------------
 
-void TForm1::SayAsync( String Text )
+void TForm1::SayAsync( String Text, std::function<void(void)> OnCompletion )
 {
 
     if ( voiceFut_.valid() ) {
@@ -70,7 +72,7 @@ void TForm1::SayAsync( String Text )
     }
     voiceFut_ = async(
         launch::async,
-        [this]( auto Txt ) {
+        [this]( auto Txt, auto Completion ) {
             //TOleSession OleSession;
             ::CoInitialize( 0 );
 
@@ -89,16 +91,22 @@ void TForm1::SayAsync( String Text )
             pVoice->Speak( Txt.c_str(), 0, nullptr );
             ::CoUninitialize();
             //ready_ = true;
+            if( Completion ) {
+                Completion();
+            }
         },
-        Text
+        Text,
+        OnCompletion
     );
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TForm1::NumClick(TObject *Sender)
 {
-    decltype( auto ) Num = static_cast<TFrame2&>( *Sender );
-    NumClickInt( static_cast<NumFrames::size_type>( Num.Tag ) );
+    if ( !GetAuto() ) {
+        decltype( auto ) Num = static_cast<TFrame2&>( *Sender );
+        NumClickInt( static_cast<NumFrames::size_type>( Num.Tag ) );
+    }
 }
 //---------------------------------------------------------------------------
 
@@ -109,9 +117,40 @@ bool TForm1::VoiceStopped() const
 }
 //---------------------------------------------------------------------------
 
+class TRestartBarNotify : public TIdNotify
+{
+protected:
+    TForm1* FForm;
+
+    void __fastcall DoNotify()
+    {
+        FForm->StartCountdown();
+    }
+
+public:
+    __fastcall TRestartBarNotify( TForm1* Form )
+        : TIdNotify(), FForm( Form )
+    {
+    }
+};
+
+void TForm1::StartCountdown()
+{
+    if ( GetAuto() ) {
+        ResetBar();
+        StartBar();
+    }
+}
+//---------------------------------------------------------------------------
+
+void TForm1::StopCountdown()
+{
+    StopBar();
+}
+//---------------------------------------------------------------------------
+
 void TForm1::NumClickInt( NumFrames::size_type Idx )
 {
-    //if ( !voiceFut_.valid() || voiceFut_.wait_for( milliseconds( 10 ) ) == future_status::ready ) {
     if ( VoiceStopped() ) {
         if ( idx_ >= 0 ) {
             nums_[idx_]->ColorAnimation1->Enabled = false;
@@ -119,8 +158,12 @@ void TForm1::NumClickInt( NumFrames::size_type Idx )
         }
         idx_ = Idx;
 
-        SayAsync( Format(_D("%d per %d" ), idx_ / 10, idx_ % 10 ) );
-
+        SayAsync(
+            Format(_D("%d per %d" ), idx_ / 10, idx_ % 10 ),
+            [this]() {
+                ( new TRestartBarNotify( this ) )->Notify();
+            }
+        );
         nums_[idx_]->ColorAnimation1->Enabled = true;
     }
 }
@@ -136,13 +179,15 @@ void __fastcall TForm1::actTestExecute(TObject *Sender)
 {
     auto const N = Edit1->Text.ToIntDef( -1 );
     if ( N >= 0 ) {
+        StopCountdown();
         auto Match = ( idx_ / 10 ) * ( idx_ % 10 );
         if ( N == Match ) {
+            auto Pnt = GetNumScore();
             //ShowMessage( _D( "BENE!" ) );
             SayAsync( N );
-            SayAsync( _D("BENE!" ) );
+            SayAsync( GetOkSentence( Pnt ) );
 
-            ++punteggio_;
+            punteggio_ += Pnt;
             MostraPunteggio();
             nums_[idx_]->Ok();
         }
@@ -156,8 +201,13 @@ void __fastcall TForm1::actTestExecute(TObject *Sender)
         idx_ = -1;
         Edit1->Text = String();
 
-        if ( GetAuto() && !autoNums_.empty() ) {
-            ready_ = true;
+        if ( GetAuto() ) {
+            if ( !autoNums_.empty() ) {
+                ready_ = true;
+            }
+            else {
+                ClearAuto();
+            }
         }
     }
 }
@@ -207,8 +257,11 @@ void __fastcall TForm1::Switch1Switch(TObject *Sender)
         Shuffle();
         ready_ = true;
         Timer1->Enabled = true;
+        ResetBar();
+        Edit1->SetFocus();
     }
     else {
+        HideBar();
         ready_ = false;
         Timer1->Enabled = false;
     }
@@ -237,6 +290,71 @@ void TForm1::Shuffle()
 
     autoNums_ = std::move( Cnt );
 
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Timer2Timer(TObject *Sender)
+{
+    ProgressBar1->Value =
+        std::max( ProgressBar1->Value - 1, ProgressBar1->Min );
+    if ( !ProgressBar1->Value ) {
+        Timer2->Enabled = false;
+    }
+    //Caption = GetNumScore();
+}
+//---------------------------------------------------------------------------
+
+void TForm1::ResetBar()
+{
+    ProgressBar1->Value = ProgressBar1->Max;
+    ProgressBar1->Visible = true;
+    //Timer2->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void TForm1::StartBar()
+{
+    Timer2->Enabled = true;
+}
+//---------------------------------------------------------------------------
+
+void TForm1::StopBar()
+{
+    Timer2->Enabled = false;
+}
+//---------------------------------------------------------------------------
+
+void TForm1::HideBar()
+{
+    Timer2->Enabled = false;
+    ProgressBar1->Visible = false;
+}
+//---------------------------------------------------------------------------
+
+void TForm1::ClearAuto()
+{
+    Switch1->IsChecked = false;
+}
+//---------------------------------------------------------------------------
+
+int TForm1::GetNumScore() const
+{
+    return
+        ( static_cast<double>( MaxP ) + 0.75 - MinP ) *
+        ( ProgressBar1->Value - ProgressBar1->Min ) /
+        ProgressBar1->Max - ProgressBar1->Min + MinP;
+}
+//---------------------------------------------------------------------------
+
+String TForm1::GetOkSentence( int Val ) const
+{
+    switch ( Val ) {
+        case 5:  return _D( "FANTASTICO!" );
+        case 4:  return _D( "ECCEZIONALE!" );
+        case 3:  return _D( "BENISSIMO!" );
+        case 2:  return _D( "MOLTO BENE!" );
+        default: return _D( "BENE!" );
+    }
 }
 //---------------------------------------------------------------------------
 
