@@ -50,7 +50,7 @@ void TForm1::Init()
     for ( auto& n : nums_ ) {
         n = make_unique<TFrame2>( nullptr );
         n->Parent = GridLayout1;
-        n->Label1->Text = Format( _D( "%d✕%d" ), v / 10, v % 10 );
+        n->Label1->Text = Format( _D( "%d✕%d" ), v / 10 + 1, v % 10 + 1 );
         n->OnDblClick = &NumClick;
         n->Tag = v;
         ++v;
@@ -159,7 +159,7 @@ void TForm1::NumClickInt( NumFrames::size_type Idx )
         idx_ = Idx;
 
         SayAsync(
-            Format(_D("%d per %d" ), idx_ / 10, idx_ % 10 ),
+			Format(_D("%d per %d" ), idx_ / 10 + 1, idx_ % 10 + 1 ),
             [this]() {
                 ( new TRestartBarNotify( this ) )->Notify();
             }
@@ -180,7 +180,7 @@ void __fastcall TForm1::actTestExecute(TObject *Sender)
     auto const N = Edit1->Text.ToIntDef( -1 );
     if ( N >= 0 ) {
         StopCountdown();
-        auto Match = ( idx_ / 10 ) * ( idx_ % 10 );
+        auto Match = ( idx_ / 10 + 1 ) * ( idx_ % 10 + 1 );
         if ( N == Match ) {
             auto Pnt = GetNumScore();
             //ShowMessage( _D( "BENE!" ) );
@@ -217,7 +217,7 @@ void __fastcall TForm1::actTestUpdate(TObject *Sender)
 {
     TAction& Act = static_cast<TAction&>( *Sender );
     auto const N = Edit1->Text.ToIntDef( -1 );
-    Act.Enabled = idx_ >= 0 && N >= 0 && N <= 81;
+	Act.Enabled = idx_ >= 0 && N >= 0 && N <= 100;
 }
 //---------------------------------------------------------------------------
 

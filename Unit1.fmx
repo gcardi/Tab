@@ -3,8 +3,8 @@ object Form1: TForm1
   Top = 0
   BorderStyle = Single
   Caption = 'Allenamento Tabelline'
-  ClientHeight = 746
-  ClientWidth = 642
+  ClientHeight = 759
+  ClientWidth = 920
   StyleBook = StyleBook1
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -3183,23 +3183,23 @@ object Form1: TForm1
     Fill.Gradient.StartPosition.Y = 1.000000000000000000
     Fill.Gradient.StopPosition.X = 0.499999970197677600
     Fill.Gradient.StopPosition.Y = 0.000000000000000000
-    Size.Width = 642.000000000000000000
-    Size.Height = 746.000000000000000000
+    Size.Width = 920.000000000000000000
+    Size.Height = 759.000000000000000000
     Size.PlatformDefault = False
     object GridLayout1: TGridLayout
       Align = MostTop
       ItemHeight = 64.000000000000000000
-      ItemWidth = 64.000000000000000000
+      ItemWidth = 92.000000000000000000
       Orientation = Horizontal
-      Size.Width = 642.000000000000000000
-      Size.Height = 633.000000000000000000
+      Size.Width = 920.000000000000000000
+      Size.Height = 647.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 0
     end
     object Layout1: TLayout
       Align = Top
-      Position.Y = 633.000000000000000000
-      Size.Width = 642.000000000000000000
+      Position.Y = 647.000000000000000000
+      Size.Width = 920.000000000000000000
       Size.Height = 112.000000000000000000
       Size.PlatformDefault = False
       TabOrder = 1
@@ -3339,6 +3339,13 @@ object Form1: TForm1
     Left = 360
     Top = 328
   end
+  object Timer2: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = Timer2Timer
+    Left = 544
+    Top = 520
+  end
   object ActionList1: TActionList
     Left = 400
     Top = 480
@@ -3351,12 +3358,5 @@ object Form1: TForm1
       Text = 'Ricomincia'
       OnExecute = actRicominciaExecute
     end
-  end
-  object Timer2: TTimer
-    Enabled = False
-    Interval = 100
-    OnTimer = Timer2Timer
-    Left = 544
-    Top = 520
   end
 end
