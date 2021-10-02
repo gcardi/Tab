@@ -29,6 +29,6 @@ latex/
 *.~*
 *.twfd
 *.twopts
-twfiles.@@@
+*.@@@
 ~$*.*
 *.tmp
