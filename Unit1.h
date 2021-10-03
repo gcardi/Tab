@@ -25,8 +25,15 @@
 #include <vector>
 #include <atomic>
 
+#include <anafestica/PersistFormWinFMX.h>
+#include <anafestica/CfgRegistrySingleton.h>
+
 //---------------------------------------------------------------------------
-class TForm1 : public TForm
+
+typedef Anafestica::TPersistFormWinFMX<Anafestica::TConfigRegistrySingleton>
+		TConfigRegistryFormWinFMX;
+
+class TForm1 : public TConfigRegistryFormWinFMX
 {
 __published:	// IDE-managed Components
     TGridLayout *GridLayout1;
@@ -46,6 +53,7 @@ __published:	// IDE-managed Components
     TTimer *Timer1;
     TProgressBar *ProgressBar1;
     TTimer *Timer2;
+    TLabel *Label3;
     void __fastcall actTestExecute(TObject *Sender);
     void __fastcall actTestUpdate(TObject *Sender);
     void __fastcall actRicominciaExecute(TObject *Sender);
@@ -62,6 +70,7 @@ private:	// User declarations
     NumFrames nums_;
     int idx_ { -1 };
     int punteggio_ {};
+    int record_ { 100 };
     std::future<void> voiceFut_;
     AutoNums autoNums_;
     std::atomic_bool ready_ { true };
@@ -69,6 +78,12 @@ private:	// User declarations
     static constexpr int MinP = 1;
 
     void Init();
+    void ClearGame();
+    void Destroy();
+    //static String GetModuleFileName();
+    //void SetupCaption();
+    void RestoreProperties();
+    void SaveProperties() const;
     void __fastcall NumClick(TObject *Sender);
     void NumClickInt( NumFrames::size_type Idx );
     void MostraPunteggio();
@@ -86,9 +101,16 @@ private:	// User declarations
     void ClearAuto();
     int GetNumScore() const;
     String GetOkSentence( int Val ) const;
+    void SetRecord( int Val );
+    void MostraRecord();
+
+    __property int Record = { read = record_, write = SetRecord };
 public:		// User declarations
-    __fastcall TForm1(TComponent* Owner);
-    void StartCountdown();
+    __fastcall TForm1( TComponent* Owner );
+	__fastcall TForm1( TComponent* Owner, StoreOpts StoreOptions,
+					   Anafestica::TConfigNode* const RootNode );
+    __fastcall ~TForm1();
+	void StartCountdown();
 
 };
 //---------------------------------------------------------------------------

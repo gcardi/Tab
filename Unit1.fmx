@@ -5,6 +5,7 @@ object Form1: TForm1
   Caption = 'Allenamento Tabelline'
   ClientHeight = 759
   ClientWidth = 920
+  Position = Designed
   StyleBook = StyleBook1
   FormFactor.Width = 320
   FormFactor.Height = 480
@@ -3214,7 +3215,7 @@ object Form1: TForm1
         Size.Width = 113.000000000000000000
         Size.Height = 49.000000000000000000
         Size.PlatformDefault = False
-        TabOrder = 3
+        TabOrder = 4
         TextSettings.Font.Size = 32.000000000000000000
       end
       object Button2: TButton
@@ -3244,21 +3245,21 @@ object Form1: TForm1
       end
       object Label1: TLabel
         StyledSettings = [Family, Style]
-        Position.X = 184.000000000000000000
-        Position.Y = 8.000000000000000000
+        Position.X = 640.000000000000000000
+        Position.Y = 59.000000000000000000
         Size.Width = 177.000000000000000000
         Size.Height = 33.000000000000000000
         Size.PlatformDefault = False
         TextSettings.Font.Size = 24.000000000000000000
         TextSettings.FontColor = claAqua
         Text = 'Punteggio: 0'
-        TabOrder = 2
+        TabOrder = 3
       end
       object Switch1: TSwitch
         IsChecked = False
         Position.X = 536.000000000000000000
         Position.Y = 65.000000000000000000
-        TabOrder = 4
+        TabOrder = 5
         OnSwitch = Switch1Switch
       end
       object Label2: TLabel
@@ -3271,16 +3272,28 @@ object Form1: TForm1
         TextSettings.Font.Size = 24.000000000000000000
         TextSettings.HorzAlign = Center
         Text = 'Auto'
-        TabOrder = 5
+        TabOrder = 6
       end
       object ProgressBar1: TProgressBar
         Orientation = Horizontal
-        Position.X = 368.000000000000000000
-        Position.Y = 16.000000000000000000
-        Size.Width = 249.000000000000000000
+        Position.X = 190.000000000000000000
+        Position.Y = 14.000000000000000000
+        Size.Width = 309.000000000000000000
         Size.Height = 20.000000000000000000
         Size.PlatformDefault = False
         Visible = False
+      end
+      object Label3: TLabel
+        StyledSettings = [Family, Style]
+        Position.X = 640.000000000000000000
+        Position.Y = 18.000000000000000000
+        Size.Width = 177.000000000000000000
+        Size.Height = 33.000000000000000000
+        Size.PlatformDefault = False
+        TextSettings.Font.Size = 24.000000000000000000
+        TextSettings.FontColor = claAqua
+        Text = 'Record: 0'
+        TabOrder = 2
       end
     end
     object GradientAnimation1: TGradientAnimation
@@ -3341,7 +3354,7 @@ object Form1: TForm1
   end
   object Timer2: TTimer
     Enabled = False
-    Interval = 100
+    Interval = 150
     OnTimer = Timer2Timer
     Left = 544
     Top = 520

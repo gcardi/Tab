@@ -19,13 +19,17 @@ __published:	// IDE-managed Components
     TRectangle *Rectangle1;
     TColorAnimation *ColorAnimation1;
 	void __fastcall Click(TObject *Sender);
+public:		// User declarations
+    enum class State { Enabled, Ok, Fail };
 private:	// User declarations
-    bool enabled_ { true };
+    //bool enabled_ { true };
+    State state_ { State::Enabled };
 public:		// User declarations
     __fastcall TFrame2(TComponent* Owner);
     void Fail();
     void Ok();
-    bool IsEnabled() const { return enabled_; }
+    //bool IsEnabled() const { return enabled_; }
+    State GetState() const { return state_; }
 };
 //---------------------------------------------------------------------------
 extern PACKAGE TFrame2 *Frame2;

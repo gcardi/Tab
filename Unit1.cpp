@@ -13,6 +13,9 @@
 #include <chrono>
 #include <random>
 #include <ctime>
+#include <algorithm>
+
+#include <anafestica/PersistFormWinFMX.h>
 
 #include "Unit1.h"
 #include "OleUtils.h"
@@ -29,6 +32,7 @@ using std::array;
 using std::generate_n;
 using std::time;
 using std::seed_seq;
+using std::max;
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -38,13 +42,37 @@ TForm1 *Form1;
 //---------------------------------------------------------------------------
 
 __fastcall TForm1::TForm1(TComponent* Owner)
-    : TForm(Owner)
+	: TForm1( Owner, StoreOpts::All, nullptr )
 {
-    Init();
+}
+//---------------------------------------------------------------------------
+
+__fastcall TForm1::TForm1( TComponent* Owner, StoreOpts StoreOptions,
+						   Anafestica::TConfigNode* const RootNode )
+	: TConfigRegistryFormWinFMX( Owner, StoreOptions, RootNode )
+{
+	Init();
+}
+//---------------------------------------------------------------------------
+
+__fastcall TForm1::~TForm1()
+{
+    try {
+        Destroy();
+    }
+    catch ( ... ) {
+    }
 }
 //---------------------------------------------------------------------------
 
 void TForm1::Init()
+{
+    ClearGame();
+    RestoreProperties();
+}
+//---------------------------------------------------------------------------
+
+void TForm1::ClearGame()
 {
     int v {};
     for ( auto& n : nums_ ) {
@@ -64,6 +92,24 @@ void TForm1::Init()
 }
 //---------------------------------------------------------------------------
 
+void TForm1::Destroy()
+{
+    SaveProperties();
+}
+//---------------------------------------------------------------------------
+
+void TForm1::RestoreProperties()
+{
+    RESTORE_LOCAL_PROPERTY( Record );
+}
+//---------------------------------------------------------------------------
+
+void TForm1::SaveProperties() const
+{
+    SAVE_LOCAL_PROPERTY( Record );
+}
+//---------------------------------------------------------------------------
+
 void TForm1::SayAsync( String Text, std::function<void(void)> OnCompletion )
 {
 
@@ -73,23 +119,25 @@ void TForm1::SayAsync( String Text, std::function<void(void)> OnCompletion )
     voiceFut_ = async(
         launch::async,
         [this]( auto Txt, auto Completion ) {
-            //TOleSession OleSession;
-            ::CoInitialize( 0 );
+            {
+                TOleSession OleSession;
+                //::CoInitialize( 0 );
 
-            using _di_ISpVoice = DelphiInterface<ISpVoice>;
+                using _di_ISpVoice = DelphiInterface<ISpVoice>;
 
-            _di_ISpVoice pVoice;
-            CoCreateInstance(
-                CLSID_SpVoice,
-                0,
-                CLSCTX_INPROC_SERVER,
-                IID_ISpVoice, ( LPVOID * ) &pVoice
-            );
+                _di_ISpVoice pVoice;
+                CoCreateInstance(
+                    CLSID_SpVoice,
+                    0,
+                    CLSCTX_INPROC_SERVER,
+                    IID_ISpVoice, ( LPVOID * ) &pVoice
+                );
 
-            pVoice->SetOutput( 0, TRUE );
+                pVoice->SetOutput( 0, TRUE );
 
-            pVoice->Speak( Txt.c_str(), 0, nullptr );
-            ::CoUninitialize();
+                pVoice->Speak( Txt.c_str(), 0, nullptr );
+                //::CoUninitialize();
+            }
             //ready_ = true;
             if( Completion ) {
                 Completion();
@@ -183,7 +231,6 @@ void __fastcall TForm1::actTestExecute(TObject *Sender)
         auto Match = ( idx_ / 10 + 1 ) * ( idx_ % 10 + 1 );
         if ( N == Match ) {
             auto Pnt = GetNumScore();
-            //ShowMessage( _D( "BENE!" ) );
             SayAsync( N );
             SayAsync( GetOkSentence( Pnt ) );
 
@@ -192,11 +239,9 @@ void __fastcall TForm1::actTestExecute(TObject *Sender)
             nums_[idx_]->Ok();
         }
         else {
-            //ShowMessage( Format( _D( "ERRORE!!! Il risultato era %d" ), Match ) );
             SayAsync( Format( _D( "ERRORE!!! Hai scritto %d. Il risultato corretto è %d" ), N, Match ) );
             nums_[idx_]->Fail();
         }
-        //nums_[idx_]->Visible = false;
 
         idx_ = -1;
         Edit1->Text = String();
@@ -207,6 +252,7 @@ void __fastcall TForm1::actTestExecute(TObject *Sender)
             }
             else {
                 ClearAuto();
+                record_ = max( record_, punteggio_ );
             }
         }
     }
@@ -223,7 +269,7 @@ void __fastcall TForm1::actTestUpdate(TObject *Sender)
 
 void __fastcall TForm1::actRicominciaExecute(TObject *Sender)
 {
-    Init();
+    ClearGame();
 }
 //---------------------------------------------------------------------------
 
@@ -268,11 +314,19 @@ void __fastcall TForm1::Switch1Switch(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+template<typename T>
+static inline bool IsEnabled( T const & Btn )
+{
+    return Btn.GetState() == TFrame2::State::Enabled;
+}
+//---------------------------------------------------------------------------
+
 void TForm1::Shuffle()
 {
     AutoNums Cnt;
     for ( NumFrames::size_type i = 0 ; i < nums_.size() ; ++i ) {
-        if ( nums_[i]->IsEnabled() ) {
+//        if ( nums_[i]->IsEnabled() ) {
+        if ( IsEnabled( *nums_[i] ) ) {
             Cnt.push_back( i );
         }
     }
@@ -355,6 +409,19 @@ String TForm1::GetOkSentence( int Val ) const
         case 2:  return _D( "MOLTO BENE!" );
         default: return _D( "BENE!" );
     }
+}
+//---------------------------------------------------------------------------
+
+void TForm1::SetRecord( int Val )
+{
+    record_ = Val;
+    MostraRecord();
+}
+//---------------------------------------------------------------------------
+
+void TForm1::MostraRecord()
+{
+    Label3->Text = Format( _D( "Record: %d" ), record_ );
 }
 //---------------------------------------------------------------------------
 

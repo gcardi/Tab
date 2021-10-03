@@ -14,24 +14,27 @@ extern "C" int FMXmain()
 {
     try
     {
-         Application->Initialize();
-         Application->CreateForm(__classid(TForm1), &Form1);
-         Application->Run();
+        Application->Initialize();
+        Application->CreateForm(__classid(TForm1), &Form1);
+        Application->Run();
+        while ( auto const Cnt = Screen->FormCount ) {
+            delete Screen->Forms[Cnt - 1];
+        }
     }
     catch (Exception &exception)
     {
-         Application->ShowException(&exception);
+        Application->ShowException(&exception);
     }
     catch (...)
     {
-         try
-         {
-             throw Exception("");
-         }
-         catch (Exception &exception)
-         {
-             Application->ShowException(&exception);
-         }
+        try
+        {
+            throw Exception("");
+        }
+        catch (Exception &exception)
+        {
+            Application->ShowException(&exception);
+        }
     }
     return 0;
 }
