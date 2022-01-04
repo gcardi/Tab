@@ -152,6 +152,19 @@
         <Icon_MainIcon>Tabelline_Icon.ico</Icon_MainIcon>
     </PropertyGroup>
     <ItemGroup>
+        <CppCompile Include="FormMain.cpp">
+            <Form>frmMain</Form>
+            <FormType>fmx</FormType>
+            <DependentOn>FormMain.h</DependentOn>
+            <BuildOrder>1</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="FrameNum.cpp">
+            <Form>frmeNum</Form>
+            <FormType>fmx</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>FrameNum.h</DependentOn>
+            <BuildOrder>3</BuildOrder>
+        </CppCompile>
         <None Include="OleUtils.h">
             <BuildOrder>4</BuildOrder>
         </None>
@@ -162,21 +175,8 @@
             <BuildOrder>2</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
-        <CppCompile Include="Unit1.cpp">
-            <Form>Form1</Form>
-            <FormType>fmx</FormType>
-            <DependentOn>Unit1.h</DependentOn>
-            <BuildOrder>1</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="Unit2.cpp">
-            <Form>Frame2</Form>
-            <FormType>fmx</FormType>
-            <DesignClass>TFrame</DesignClass>
-            <DependentOn>Unit2.h</DependentOn>
-            <BuildOrder>3</BuildOrder>
-        </CppCompile>
-        <FormResources Include="Unit2.fmx"/>
-        <FormResources Include="Unit1.fmx"/>
+        <FormResources Include="FrameNum.fmx"/>
+        <FormResources Include="FormMain.fmx"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

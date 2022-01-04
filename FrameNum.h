@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef Unit2H
-#define Unit2H
+#ifndef FrameNumH
+#define FrameNumH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <FMX.Controls.hpp>
@@ -12,7 +12,7 @@
 #include <FMX.Objects.hpp>
 #include <FMX.Ani.hpp>
 //---------------------------------------------------------------------------
-class TFrame2 : public TFrame
+class TfrmeNum : public TFrame
 {
 __published:	// IDE-managed Components
     TLabel *Label1;
@@ -25,13 +25,13 @@ private:	// User declarations
     //bool enabled_ { true };
     State state_ { State::Enabled };
 public:		// User declarations
-    __fastcall TFrame2(TComponent* Owner);
+    __fastcall TfrmeNum(TComponent* Owner);
     void Fail();
     void Ok();
     //bool IsEnabled() const { return enabled_; }
     State GetState() const { return state_; }
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TFrame2 *Frame2;
+extern PACKAGE TfrmeNum *frmeNum;
 //---------------------------------------------------------------------------
 #endif

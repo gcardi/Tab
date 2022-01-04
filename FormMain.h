@@ -1,14 +1,14 @@
 //---------------------------------------------------------------------------
 
-#ifndef Unit1H
-#define Unit1H
+#ifndef FormMainH
+#define FormMainH
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <FMX.Controls.hpp>
 #include <FMX.Forms.hpp>
 #include <FMX.Layouts.hpp>
 #include <FMX.Types.hpp>
-#include "Unit2.h"
+#include "FrameNum.h"
 #include <FMX.Objects.hpp>
 #include <FMX.Controls.Presentation.hpp>
 #include <FMX.Edit.hpp>
@@ -33,7 +33,7 @@
 typedef Anafestica::TPersistFormWinFMX<Anafestica::TConfigRegistrySingleton>
 		TConfigRegistryFormWinFMX;
 
-class TForm1 : public TConfigRegistryFormWinFMX
+class TfrmMain : public TConfigRegistryFormWinFMX
 {
 __published:	// IDE-managed Components
     TGridLayout *GridLayout1;
@@ -62,7 +62,7 @@ __published:	// IDE-managed Components
     void __fastcall Switch1Switch(TObject *Sender);
     void __fastcall Timer2Timer(TObject *Sender);
 private:	// User declarations
-    using NumFramePtr = std::unique_ptr<TFrame2>;
+    using NumFramePtr = std::unique_ptr<TfrmeNum>;
     using NumFrames = std::array<NumFramePtr,100>;
     using AutoNums = std::vector<NumFrames::size_type>;
     using CompletionFnType = std::function<void(void)>;
@@ -106,14 +106,14 @@ private:	// User declarations
 
     __property int Record = { read = record_, write = SetRecord };
 public:		// User declarations
-    __fastcall TForm1( TComponent* Owner );
-	__fastcall TForm1( TComponent* Owner, StoreOpts StoreOptions,
+    __fastcall TfrmMain( TComponent* Owner );
+	__fastcall TfrmMain( TComponent* Owner, StoreOpts StoreOptions,
 					   Anafestica::TConfigNode* const RootNode );
-    __fastcall ~TForm1();
+    __fastcall ~TfrmMain();
 	void StartCountdown();
 
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TForm1 *Form1;
+extern PACKAGE TfrmMain *frmMain;
 //---------------------------------------------------------------------------
 #endif

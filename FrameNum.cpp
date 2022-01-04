@@ -3,20 +3,20 @@
 #include <fmx.h>
 #pragma hdrstop
 
-#include "Unit2.h"
+#include "FrameNum.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.fmx"
-TFrame2 *Frame2;
+TfrmeNum *frmeNum;
 //---------------------------------------------------------------------------
 
-__fastcall TFrame2::TFrame2(TComponent* Owner)
+__fastcall TfrmeNum::TfrmeNum(TComponent* Owner)
     : TFrame(Owner)
 {
 }
 //---------------------------------------------------------------------------
 
-void TFrame2::Fail()
+void TfrmeNum::Fail()
 {
     //enabled_ = false;
     state_ = State::Fail;
@@ -25,7 +25,7 @@ void TFrame2::Fail()
 }
 //---------------------------------------------------------------------------
 
-void TFrame2::Ok()
+void TfrmeNum::Ok()
 {
     //enabled_ = false;
     state_ = State::Ok;
@@ -34,7 +34,7 @@ void TFrame2::Ok()
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFrame2::Click(TObject *Sender)
+void __fastcall TfrmeNum::Click(TObject *Sender)
 {
     //if ( enabled_ && OnDblClick ) {
     if ( state_ == State::Enabled && OnDblClick ) {

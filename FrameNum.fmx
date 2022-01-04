@@ -1,4 +1,4 @@
-object Frame2: TFrame2
+object frmeNum: TfrmeNum
   Size.Width = 128.000000000000000000
   Size.Height = 128.000000000000000000
   Size.PlatformDefault = False

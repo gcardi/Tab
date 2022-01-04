@@ -7,16 +7,16 @@
 #pragma hdrstop
 #include <System.StartUpCopy.hpp>
 //---------------------------------------------------------------------------
-USEFORM("Unit2.cpp", Frame2); /* TFrame: File Type */
-USEFORM("Unit1.cpp", Form1);
+USEFORM("FrameNum.cpp", frmeNum); /* TFrame: File Type */
+USEFORM("FormMain.cpp", frmMain);
 //---------------------------------------------------------------------------
 extern "C" int FMXmain()
 {
     try
     {
         Application->Initialize();
-        Application->CreateForm(__classid(TForm1), &Form1);
-        Application->Run();
+        Application->CreateForm(__classid(TfrmMain), &frmMain);
+         Application->Run();
         while ( auto const Cnt = Screen->FormCount ) {
             delete Screen->Forms[Cnt - 1];
         }
